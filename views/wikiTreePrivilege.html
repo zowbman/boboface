@@ -1,0 +1,51 @@
+<link href="/css/wiki.css" rel="stylesheet">
+<div class="container" style="padding-bottom: 60px;">
+  <h1 class="page-header">wikiTreePrivilege</h1>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>AllowAdd</th>
+          <th>AllowEdit</th>
+          <th>AllowDelete</th>
+          <th>addTime</th>
+          <th>Opt</th>
+        </tr>
+      </thead>
+      <tbody id="wikiTreePrivilegeList"></tbody>
+    </table>
+  </div>
+  <nav id="wikiTreePrivilegePaging"></nav>
+</div>
+<!-- 模态框 -->
+<div class="modal fade" id="wikiTreePrivilegeModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div id="wikiTreePrivilege-titile"></div>
+      </div>
+      <div class="modal-body">
+        <form id="wikiTreePrivilegeModal-form">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>AllowAdd</th>
+                <th>AllowEdit</th>
+                <th>AllowDelete</th>
+              </tr>
+            </thead>
+            <tbody id="wikiTreePrivilege-body"></tbody>
+          </table>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button id="saveWikiPrivilegeBtn" type="button" class="btn btn-primary">保存配置</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript" src="/js/wikiTreeManage.js"></script>

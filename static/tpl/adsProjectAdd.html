@@ -1,0 +1,78 @@
+<form id="adsProjectAddForm">
+    <div class="form-group">
+        <label class="control-label" for="projectServiceTree">所属业务树</label>
+        <select id="projectServiceTree" class="form-control">
+            <option value="-1">请选择所属业务树</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="projectName">项目名称</label>
+        <input type="text" class="form-control" id="projectName" placeholder="项目名称">
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="introduction">项目简介</label>
+        <input type="text" class="form-control" id="introduction" placeholder="项目简介">
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="storagePath">存储路径</label>
+        <input type="text" class="form-control" id="storagePath" placeholder="存储路径">
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="gitPath">仓库地址</label>
+        <input type="text" class="form-control" id="gitPath" placeholder="仓库地址">
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="runUser">运行账号</label>
+        <input type="text" class="form-control" id="runUser" placeholder="运行账号">
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="runGroup">账号属组</label>
+        <input type="text" class="form-control" id="runGroup" placeholder="运行账号">
+    </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+<script type="text/javascript">
+    //ads挂载项目业务树 递归方法
+    function adsMountProjectServiceTree(serviceTree,tree,trees){
+        $.each(serviceTree,function(i,item){
+            if(item.childServiceTree.length > 0){
+                adsMountProjectServiceTree(item.childServiceTree,item,trees);
+            }else{
+                var t;
+                if(typeof(tree.title) == "undefined"){
+                    t = {id : item.id, title : (item.title)};
+                }else{
+                    t = {id : item.id, title : (tree.title + ' - ' + item.title)};
+                }
+                trees.push(t);
+                return t;
+            }
+        });
+        return trees;
+    }
+    //加载业务树
+    $(function(){
+        $.ajax({
+            type: 'GET',
+            url: "/boboface/json/v1/serviceTree/adsMountProjectServiceTree",
+            data: null,
+            success: function(data){
+                if(data.code == 100000){
+                    $('#projectServiceTree').empty();
+                    $('#projectServiceTree').append(nano(serviceTreeListTemplate, {'title' : '请选择所属业务树','id' : '-1'}));
+                    var rootServiceTree = data.data.rootServiceTree;
+                    var tree = adsMountProjectServiceTree(rootServiceTree.childServiceTree,{},[]);
+                    $.each(tree,function(i,item){
+                        item.title = data.data.rootServiceTree.title + ' - ' + item.title;
+                        $('#projectServiceTree').append(nano(serviceTreeListTemplate,item));
+                    });
+                }else{
+                    condole.log('业务树请求失败');
+                }
+            },
+            error: function() {
+                console.log('业务树请求异常');
+            }
+        });
+    });
+</script>

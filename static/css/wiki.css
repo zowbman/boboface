@@ -1,0 +1,25 @@
+/*ul.ztree{
+	width: auto;
+	height: 100%;
+	overflow-y: hidden;
+	margin-top: 0;
+}
+
+/*ztree 字体*/
+.ztree *{
+	font-size: 100%;
+}
+
+.wikiTreePrivilegeCheckBox{
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+#wikiTreePrivilegeModal .table th,#wikiTreePrivilegeModal .table td { 
+	text-align: center;
+}
+
+/*分页*/
+#paging{
+	text-align: center;
+}

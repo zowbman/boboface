@@ -1,0 +1,35 @@
+<link href="/css/dashboard.css" rel="stylesheet">
+<!-- zTree -->
+<link rel="stylesheet" href="/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link href="/css/ads.css" rel="stylesheet">
+<link rel="stylesheet" href="/lib/codemirror.css">
+<link rel="stylesheet" href="/theme/monokai.css">
+<style type="text/css">
+    .CodeMirror {
+        height:550px;
+    }     
+</style>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-3 sidebar">
+    	<ul id="adsTree" class="ztree"></ul>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-9 col-md-offset-3 main">
+        <div id="adsBtnBox">
+            <div class="pull-left title"><strong>ASD Template 配置模板</strong></div>
+            <div class="pull-right" style="display:none;"><p><input id="saveWikiContent" class="btn btn-success" type="button" value="Save"></p></div>
+        </div>
+    	<!-- codemirror -->
+        <div>
+            <textarea id="codemirror" name="codemirror">loading...</textarea>
+        </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="/js/ads.js"></script>
+<script type="text/javascript" src="/js/jquery.ztree.core.min.js"></script>
+<script type="text/javascript" src="/js/jquery.ztree.exedit.min.js"></script>
+<!--codemirror-->
+<script type="text/javascript" src="/lib/codemirror.js"></script>
+<script type="text/javascript" src="/mode/shell/shell.js"></script>

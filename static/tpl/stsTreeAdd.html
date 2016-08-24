@@ -1,0 +1,21 @@
+<form id="serviceTreeAddForm">
+    <div class="form-group">
+        <label class="control-label" for="serviceTreeType">树类型</label>
+        <select id="serviceTreeType" class="form-control">
+            <option value="-1">请选择子树类型</option>
+            <option value="second">二级树</option>
+            <option value="third">三级树</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="parentServiceTree">所属业务树</label>
+        <select id="parentServiceTree" class="form-control">
+            <option value="-1">请选择所属业务树</option>
+        </select>
+      </div>
+    <div class="form-group">
+        <label class="control-label" for="serviceTreeName">业务树名称</label>
+        <input type="text" class="form-control" id="serviceTreeName" placeholder="业务树名称">
+    </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>

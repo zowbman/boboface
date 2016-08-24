@@ -1,0 +1,28 @@
+{
+ "apps" : [{
+   "name"        : "boboface.com",
+   "script"      : "bin/www",
+   "log_date_format"  : "YYYY-MM-DD HH:mm:SS",
+   "merge_logs" : true,
+   "log_file"   : "../boboface.com_log/logs/boboface.com.log",
+   "error_file" : "../boboface.com_log/logs/boboface.com-err.log",
+   "out_file"   : "../boboface.com_log/logs/boboface.com-out.log",
+   "pid_file"   : "../boboface.com_log/logs/boboface.com.pid",
+   "exec_mode"  : "cluster",
+   "instances" : "max",
+   "max_restarts": 1000,
+   "watch"      :  true,
+   "env": {
+      "NODE_ENV": "development",
+      "PORT": 3000
+    },
+    "env_test" : {
+       "NODE_ENV": "test",
+       "PORT":3000
+    },
+    "env_production" : {
+       "NODE_ENV": "production",
+       "PORT":3000
+    }
+  }]
+}

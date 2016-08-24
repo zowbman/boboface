@@ -1,0 +1,25 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+/*警告框*/
+#alertBox{
+	position: fixed;
+    z-index: 1;
+    width: 100%;
+    bottom: 40px;
+}
+
+/*分页按钮*/
+a.page{
+	cursor: pointer;
+}
+
+/*高权*/
+.highLevel{
+	display:none!important;
+}

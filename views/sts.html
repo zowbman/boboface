@@ -1,0 +1,51 @@
+<link href="/css/dashboard.css" rel="stylesheet">
+<!-- zTree -->
+<link rel="stylesheet" href="/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link href="/css/sts.css" rel="stylesheet">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+    	<ul id="stsTree" class="ztree"></ul>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="toolbar">
+            <a class="btn btn-default btn-primary" href="javascrip:;" onclick="createSTree('createSTree')" role="button">新建业务树</a>
+            <a class="btn btn-default btn-primary" href="javascrip:;" onclick="sTreePrivilege('sTreePrivilege')" role="button">管理权限</a>
+            <a class="btn btn-default btn-primary" href="javascrip:;" onclick="adsMountProject('adsMountProject')" role="button">ADS挂载</a>
+        </div>
+        <div id="stsContent"></div>
+    </div>
+  </div>
+</div>
+<!-- 模态框 -->
+<div class="modal fade" id="stsTreePrivilegeModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div id="stsTreePrivilege-titile"></div>
+      </div>
+      <div class="modal-body">
+        <form id="stsTreePrivilegeModal-form">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>AllowAdd</th>
+                <th>AllowEdit</th>
+                <th>AllowDelete</th>
+              </tr>
+            </thead>
+            <tbody id="stsTreePrivilege-body"></tbody>
+          </table>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button id="saveStsPrivilegeBtn" type="button" class="btn btn-primary">保存配置</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript" src="/js/sts.js"></script>
+<script type="text/javascript" src="/js/jquery.ztree.core.min.js"></script>
+<script type="text/javascript" src="/js/jquery.ztree.exedit.min.js"></script>

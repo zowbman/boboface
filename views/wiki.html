@@ -1,0 +1,23 @@
+<link href="/css/dashboard.css" rel="stylesheet">
+<!-- zTree -->
+<link rel="stylesheet" href="/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link href="/css/wiki.css" rel="stylesheet">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+    	<ul id="wikiTree" class="ztree"></ul>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    	<div id="wikiBtnBox" style="display:none;">
+			<div class="pull-left" style="line-height:34px;font-size:18px;"><strong>Editor Mode</strong></div>
+			<p style="text-align: right;"><input id="saveWikiContent" class="btn btn-success" type="button" value="Save"></p>
+    	</div>
+    	<!-- epiceditor markdown -->
+    	<div id="epiceditor" style="height:100%;width:100%"></div>
+    </div>
+  </div>
+</div>
+<textarea id="wikiContent" style="display:none;"># Boboface' wiki</textarea>
+<script type="text/javascript" src="/js/wiki.js"></script>
+<script type="text/javascript" src="/js/jquery.ztree.core.min.js"></script>
+<script type="text/javascript" src="/js/jquery.ztree.exedit.min.js"></script>
