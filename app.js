@@ -14,6 +14,7 @@ var users = require('./routes/users');
 var adsTemplate = require('./routes/adsTemplate');
 var sts = require('./routes/sts');
 var adsBuild = require('./routes/adsBuild');
+var adsUnitlScript = require('./routes/adsUnitlScript');
 
 var template = require("hbs");
 var app = express();
@@ -46,6 +47,7 @@ app.use('/users', users);
 app.use('/ads/template', adsTemplate);
 app.use('/sts', sts);
 app.use('/adsBuild', adsBuild);
+app.use('/ads/unitlScript', adsUnitlScript);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

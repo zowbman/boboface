@@ -15,9 +15,45 @@ $(function(){
 		    }
 		});
 });
+
+//改变校验样式
+function createSTreeCheck(target,isError){
+	if(isError){
+		target.next().css('display','none');
+		target.parent().removeClass('has-error');
+		target.parent().addClass('has-success');
+	}else{
+		target.next().css('display','block');
+		target.parent().addClass('has-error');
+		target.parent().removeClass('has-success');
+	}
+}
+
+//分支
+$('input[name="appBranch"]').blur(function(){
+	if($(this).val() != ''){
+		createSTreeCheck($(this),true);
+	}else{
+		createSTreeCheck($(this),false);	
+	}
+});
+
 //项目发布
 $('#adsBuildForm').submit(function(){
 	var _form = $('#adsBuildForm');
+
+	var flag = true;
+	//校验
+	if($('input[name="appBranch"]').val() != ''){
+		createSTreeCheck($('input[name="appBranch"]'),true);
+	}else{
+		createSTreeCheck($('input[name="appBranch"]'),false);
+		flag = false;
+	}
+
+	if(!flag)
+		return false;
+
 	$.ajax({
 			type: 'POST',
 			url: "/boboface/json/v1/ads/projectBuild",
@@ -31,6 +67,9 @@ $('#adsBuildForm').submit(function(){
 		    },
 		    success: function(data){
 		    	$('#adsBuildProgress').css('display','none');
+		    	$('#buildResultModal-body').empty();
+				$('#buildResultModal-body').append(nano(messageBodyTemplate, {body:data.data.buildResult}));
+		    	$('#buildResultModal').modal('show');
 		    }
 		});
 	return false;

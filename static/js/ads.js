@@ -38,7 +38,22 @@ $(function(){
 });
 //loadTreeList
 function loadTreeList(){
-	$.get("/boboface/json/v1/ads/treeList", null, function(data) {
+
+	var flag = true;
+	var href;
+
+	if('/ads/template' == window.location.pathname){
+		href = '/boboface/json/v1/ads/treeList/template';
+	}else if('/ads/unitlScript' == window.location.pathname){
+		href = '/boboface/json/v1/ads/treeList/unitlScript';
+	}else{
+		flag = false;
+	}
+
+	if(!flag)
+		return;
+
+	$.get(href, null, function(data) {
 		if(data.code != 100000){
 			console.log('加载ads tree失败')
 			return;
@@ -49,15 +64,27 @@ function loadTreeList(){
 
 //ztree event
 function zTreeOnClick(event, treeId, treeNode) {
-	$.get("/boboface/json/v1/ads/content/" + treeNode.id, null, function(data) {
+
+	var href;
+
+	if('/ads/template' == window.location.pathname){
+		href = '/boboface/json/v1/ads/content/' + treeNode.id + '/template';
+	}else if('/ads/unitlScript' == window.location.pathname){
+		href ='/boboface/json/v1/ads/content/' + treeNode.id + '/unitlScript';
+	}else{
+		flag = false;
+	}
+
+	$.get(href, null, function(data) {
 		if(data.code != 100000){
 			console.log('加载ads content失败')
 			return;
 		}
-		if(data.data.adsContent.content == null){
+
+		if(data.data.content.content == null){
 			myCodeMirror.setValue(adsContent);
 		}else{
-			myCodeMirror.setValue(data.data.adsContent.content);
+			myCodeMirror.setValue(data.data.content.content);
 		}
 		myCodeMirror.treeNode = {id:treeNode.id};
 		$('#adsBtnBox').find('div').last().attr('style','display:block');
@@ -237,7 +264,7 @@ function loadCodeMirror(){
 }
 
 //保存模板
-$('#saveWikiContent').click(function(){
+$('#saveAdsTemplate').click(function(){
 	var msg,type;
 	$.ajax({
 			type: 'POST',

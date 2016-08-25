@@ -1,5 +1,7 @@
 //wiki默认内容
 var wikiContent = "# Boboface' wiki";
+//ads默认内容
+var adsContent = "loading...";
 //消息模态框模板
 //头
 var messageTitleTemplate = '<h4 class="modal-title">{title}</h4>';
@@ -146,4 +148,4 @@ $(function(){
 		});
 		return false;
 	});
-})
+});

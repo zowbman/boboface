@@ -457,7 +457,10 @@ $('#stsContent').on('submit','#adsProjectAddForm',function(){
 		    	'adsProject.servicetreeid' : $('#projectServiceTree').val(),
 		    	'adsProject.appname' : $('#projectName').val(),
 		    	'adsProject.introduction' : $('#introduction').val(),
-		    	'adsProject.storagepath' : $('#storagePath').val()
+		    	'adsProject.storagepath' : $('#storagePath').val(),
+		    	'adsProject.gitpath' : $('#gitPath').val(),
+		    	'adsProject.runuser' : $('#runUser').val(),
+		    	'adsProject.rungroup' : $('#runGroup').val()
 		    },
 		    success: function(data){
 		    	if(data.code != 100000){

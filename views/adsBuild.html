@@ -23,11 +23,14 @@
 					</tr>
 					<tr>
 						<td>git分支</td>
-						<td><input type="text" name="appBranch" class="form-control"></td>
+						<td>
+							<input type="text" name="appBranch" class="form-control">
+							<span id="gitError" class="control-label" style="display:none;">请输入git分支</span>
+						</td>
 					</tr>
 					<tr>
 						<td>git tag</td>
-						<td><input type="text" name="branchTag" class="form-control"></td>
+						<td><input type="text" name="branchTag" class="form-control" placeholder="HEAD"></td>
 					</tr>
 					<tr>
 						<td colspan="2" style="text-align:center;"><button type="submit" class="btn btn-default btn-primary">发布</button></td>
@@ -37,4 +40,16 @@
 		</div>
 	</form>
 </div>
+<!--发布结果Modal 消息模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="buildResultModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div>发布结果</div>
+      </div>
+      <div class="modal-body" id="buildResultModal-body"></div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script type="text/javascript" src="/js/adsBuild.js"></script>
