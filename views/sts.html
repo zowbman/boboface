@@ -12,12 +12,13 @@
             <a class="btn btn-default btn-primary" href="javascrip:;" onclick="createSTree('createSTree')" role="button">新建业务树</a>
             <a class="btn btn-default btn-primary" href="javascrip:;" onclick="sTreePrivilege('sTreePrivilege')" role="button">管理权限</a>
             <a class="btn btn-default btn-primary" href="javascrip:;" onclick="adsMountProject('adsMountProject')" role="button">ADS挂载</a>
+            <a class="btn btn-default btn-primary" href="javascrip:;" onclick="adsMountServer('adsMountServer')" role="button">服务器挂载</a>
         </div>
         <div id="stsContent"></div>
     </div>
   </div>
 </div>
-<!-- 模态框 -->
+<!-- 业务树权限管理模态框 -->
 <div class="modal fade" id="stsTreePrivilegeModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -42,6 +43,25 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
         <button id="saveStsPrivilegeBtn" type="button" class="btn btn-primary">保存配置</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- ads项目详情模态框 -->
+<div class="modal fade" id="adsProjectDetailModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div id="adsProjectDetail-titile"></div>
+      </div>
+      <div class="modal-body">
+        <form id="adsProjectDetail-form">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button id="saveAdsProjectBtn" type="button" class="btn btn-primary">保存配置</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

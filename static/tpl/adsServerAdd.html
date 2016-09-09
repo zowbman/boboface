@@ -1,0 +1,26 @@
+<form id="adsServerAddForm">
+    <div class="form-group">
+        <label class="control-label" for="serverServiceTree">所属业务树</label>
+        <select id="serverServiceTree" class="form-control">
+            <option value="-1">请选择所属业务树</option>
+        </select>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>内网IP</th>
+                    <th>服务器名称</th>
+                    <th>地域</th>
+                    <th>产品模块</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="adsServerList"></tbody>
+        </table>
+    </div>
+    <nav id="adsServerPaging"></nav>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+<script type="text/javascript" src="/js/adsServerManage.js"></script>

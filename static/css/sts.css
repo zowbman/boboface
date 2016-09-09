@@ -40,3 +40,18 @@
 #adsProjectList a{
 	text-decoration: none;
 }
+
+
+#adsServerList .adsServerTitle{
+	word-break: break-all;
+	width: 200px;
+	white-space: normal;
+}
+
+#adsServerList .hideTitle{
+	float: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+	border-top: 0;
+}

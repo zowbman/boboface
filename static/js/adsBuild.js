@@ -11,9 +11,48 @@ $(function(){
 		    	}else{
 		    		_form.find('#appName').text(data.data.adsProject.appname + "(" + data.data.adsProject.introduction +")");
 		    		_form.find('#appStoragePath').text(data.data.adsProject.storagepath);
+		    		_form.find('input[name="serviceTreeId"]').val(data.data.adsProject.servicetreeid);
+		    		adsProjectServerList();
 		    	}
 		    }
 		});
+});
+
+var adsProjectServerListTemplate = '<tr>' +
+					           '<td><input type="checkbox" value="{serverip}"></td>' +
+					           '<td>{serverip}</td>' +
+					           '<td>--</td>' +
+					           '</tr>';
+//项目部署服务器列表
+function adsProjectServerList(pageUrl){
+	var _form = $('#adsBuildForm');
+	var url = '/boboface/json/v1/ads/projectServerList/' + _form.find('input[name="serviceTreeId"]').val();
+	if(typeof(pageUrl) != 'undefined')
+		url = pageUrl;
+	//return;
+	$.ajax({
+			type: 'GET',
+			url: url,
+		    data: null,
+		    success: function(data){
+		    	if(data.code != 100000){
+		    		alert(data.msg);
+		    	}else{
+		    		$('#adsProjectServerList').empty();
+		    		$.each(data.data.list, function(i, item){
+						$('#adsProjectServerList').append(nano(adsProjectServerListTemplate, item));
+					});
+					paging('adsProjectServerPaging',data.data.pageInfo,'adsProjectServerList',data.data.pageUrl);
+		    	}
+		    }
+		});
+}
+
+//选中发布机器单选
+$('#adsProjectServerList').on('change','input[type="checkbox"]',function(){
+	$.each($(this).attr('checked',true).parent().parent().siblings(),function(i,item){
+		$(item).find('input[type="checkbox"]').attr('checked',false);
+	});
 });
 
 //改变校验样式
@@ -54,13 +93,17 @@ $('#adsBuildForm').submit(function(){
 	if(!flag)
 		return false;
 
+	if(_form.find('input[type="checkbox"]:checked').length == 0)
+		alertDialog('注意','请选择需要发布的机器!');
+
 	$.ajax({
 			type: 'POST',
 			url: "/boboface/json/v1/ads/projectBuild",
 		    data: {
 		    	appId: _form.find('input[name="appId"]').val(),
 		    	appBranch: _form.find('input[name="appBranch"]').val(),
-		    	branchTag: _form.find('input[name="branchTag"]').val()
+		    	branchTag: _form.find('input[name="branchTag"]').val(),
+		    	ip : _form.find('input[type="checkbox"]:checked').val()
 		    },
 		    beforeSend: function(){
 		    	$('#adsBuildProgress').css('display','block');

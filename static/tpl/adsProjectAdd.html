@@ -32,24 +32,6 @@
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
 <script type="text/javascript">
-    //ads挂载项目业务树 递归方法
-    function adsMountProjectServiceTree(serviceTree,tree,trees){
-        $.each(serviceTree,function(i,item){
-            if(item.childServiceTree.length > 0){
-                adsMountProjectServiceTree(item.childServiceTree,item,trees);
-            }else{
-                var t;
-                if(typeof(tree.title) == "undefined"){
-                    t = {id : item.id, title : (item.title)};
-                }else{
-                    t = {id : item.id, title : (tree.title + ' - ' + item.title)};
-                }
-                trees.push(t);
-                return t;
-            }
-        });
-        return trees;
-    }
     //加载业务树
     $(function(){
         $.ajax({
@@ -60,12 +42,14 @@
                 if(data.code == 100000){
                     $('#projectServiceTree').empty();
                     $('#projectServiceTree').append(nano(serviceTreeListTemplate, {'title' : '请选择所属业务树','id' : '-1'}));
-                    var rootServiceTree = data.data.rootServiceTree;
-                    var tree = adsMountProjectServiceTree(rootServiceTree.childServiceTree,{},[]);
-                    $.each(tree,function(i,item){
-                        item.title = data.data.rootServiceTree.title + ' - ' + item.title;
-                        $('#projectServiceTree').append(nano(serviceTreeListTemplate,item));
-                    });
+                    if(data.data.maxDepth >=3){
+                        var rootServiceTree = data.data.rootServiceTree;
+                        var tree = adsMountProjectServiceTree(rootServiceTree.childServiceTree,{},[]);
+                        $.each(tree,function(i,item){
+                            item.title = data.data.rootServiceTree.title + ' - ' + item.title;
+                            $('#projectServiceTree').append(nano(serviceTreeListTemplate,item));
+                        });
+                    }
                 }else{
                     condole.log('业务树请求失败');
                 }

@@ -331,20 +331,40 @@ function sTreePrivilege(pageStatus){
 	$('#stsContent').load('/tpl/stsTreePrivilege.html');
 }
 
+//ads挂载项目业务树 递归方法
+function adsMountProjectServiceTree(serviceTree,tree,trees){
+    $.each(serviceTree,function(i,item){
+        if(item.childServiceTree.length > 0){
+            adsMountProjectServiceTree(item.childServiceTree,item,trees);
+        }else{
+            var t;
+            if(typeof(tree.title) == "undefined"){
+                t = {id : item.id, title : (item.title)};
+            }else{
+                t = {id : item.id, title : (tree.title + ' - ' + item.title)};
+            }
+            trees.push(t);
+            return t;
+        }
+    });
+    return trees;
+}
+
 //ads 项目挂载
 function adsMountProject(pageStatus){
 	$('#stsContent').load('/tpl/adsProjectAdd.html');
 }
 
 //所属业务树
-if($('#projectServiceTree').val() != '-1'){
-	createSTreeCheck($('#projectServiceTree'),'所属业务树',true);
-}else{
-	createSTreeCheck($('#projectServiceTree'),'请选择所属业务树',false);
-	flag = false;
-}
+$('#stsContent,#adsProjectDetail-form').on('change','#projectServiceTree',function(){
+	if($(this).val() != '-1'){
+		createSTreeCheck($(this),'所属业务树',true);
+	}else{
+		createSTreeCheck($(this),'请选择所属业务树',false);
+	}
+});
 //项目名称
-$('#stsContent').on('blur','#projectName',function(){
+$('#stsContent,#adsProjectDetail-form').on('blur','#projectName',function(){
 	if($(this).val() != ''){
 		createSTreeCheck($(this),'项目名称',true);
 	}else{
@@ -353,7 +373,7 @@ $('#stsContent').on('blur','#projectName',function(){
 });
 
 //项目简介
-$('#stsContent').on('blur','#introduction',function(){
+$('#stsContent,#adsProjectDetail-form').on('blur','#introduction',function(){
 	if($(this).val() != ''){
 		createSTreeCheck($(this),'项目简介',true);
 	}else{
@@ -362,7 +382,7 @@ $('#stsContent').on('blur','#introduction',function(){
 });
 
 //项目路径
-$('#stsContent').on('blur','#storagePath',function(){
+$('#stsContent,#adsProjectDetail-form').on('blur','#storagePath',function(){
 	if($(this).val() != ''){
 		createSTreeCheck($(this),'项目路径',true);
 	}else{
@@ -371,7 +391,7 @@ $('#stsContent').on('blur','#storagePath',function(){
 });
 
 //仓库地址
-$('#stsContent').on('blur','#gitPath',function(){
+$('#stsContent,#adsProjectDetail-form').on('blur','#gitPath',function(){
 	if($(this).val() != ''){
 		createSTreeCheck($(this),'仓库地址',true);
 	}else{
@@ -380,7 +400,7 @@ $('#stsContent').on('blur','#gitPath',function(){
 });
 
 //运行账号
-$('#stsContent').on('blur','#runUser',function(){
+$('#stsContent,#adsProjectDetail-form').on('blur','#runUser',function(){
 	if($(this).val() != ''){
 		createSTreeCheck($(this),'运行账号',true);
 	}else{
@@ -389,7 +409,7 @@ $('#stsContent').on('blur','#runUser',function(){
 });
 
 //账号属组
-$('#stsContent').on('blur','#runGroup',function(){
+$('#stsContent,#adsProjectDetail-form').on('blur','#runGroup',function(){
 	if($(this).val() != ''){
 		createSTreeCheck($(this),'账号属组',true);
 	}else{
@@ -397,9 +417,8 @@ $('#stsContent').on('blur','#runGroup',function(){
 	}
 });
 
-//项目挂载
-$('#stsContent').on('submit','#adsProjectAddForm',function(){
-	var _form = $(this);
+//项目挂载、修改提交前端校验
+function adsProjectSaveValidate(){
 	var flag = true;
 	//校验
 	if($('#projectServiceTree').val() != '-1'){
@@ -447,7 +466,13 @@ $('#stsContent').on('submit','#adsProjectAddForm',function(){
 		createSTreeCheck($('#runGroup'),'账号属组不允许为空',false);
 		flag = false;
 	}
+	return flag;
+}
 
+//项目挂载
+$('#stsContent').on('submit','#adsProjectAddForm',function(){
+	var _form = $(this);
+	var flag = adsProjectSaveValidate();//校验
 	if(flag){
 		var msg,type;
 		$.ajax({
@@ -482,3 +507,105 @@ $('#stsContent').on('submit','#adsProjectAddForm',function(){
 	}
 	return false;
 });
+
+//项目配置修改
+$('#saveAdsProjectBtn').click(function(){
+	var flag = adsProjectSaveValidate();//校验
+	if(flag){
+		var msg,type;
+		$.ajax({
+			type: 'POST',
+			url: '/boboface/json/v1/ads/projectEdit/' + $('#adsProjectDetail-form').find('input[id="projectId"]').val(),
+		    data: {
+		    	'adsProject.servicetreeid' : $('#adsProjectDetail-form').find('input[id="projectServiceTree"]').val(),
+		    	'adsProject.appname' : 	$('#adsProjectDetail-form').find('input[id="projectName"]').val(),
+		    	'adsProject.introduction' : $('#adsProjectDetail-form').find('input[id="introduction"]').val(),
+		    	'adsProject.storagepath' : 	$('#adsProjectDetail-form').find('input[id="storagePath"]').val(),
+		    	'adsProject.gitpath' : 	$('#adsProjectDetail-form').find('input[id="gitPath"]').val(),
+		    	'adsProject.runuser' : 	$('#adsProjectDetail-form').find('input[id="runUser"]').val(),
+		    	'adsProject.rungroup' : $('#adsProjectDetail-form').find('input[id="runGroup"]').val()
+		    },
+		    success: function(data){
+		    	if(data.code != 100000){
+		    		type = 'danger';
+		    		msg = data.msg;
+		    	}else{
+		    		type = 'success';
+					msg = data.data.msg;
+					loadAdsProjectList($('#adsProjectPaging').find('.active').find('a').attr('value'));
+		    	}
+		    	$('#adsProjectDetailModal').modal('hide');
+		    	showDialog(msg,type);
+		    }
+		});
+	}
+});
+
+//ads 服务器挂载
+function adsMountServer(pageStatus){
+	$('#stsContent').load('/tpl/adsServerAdd.html');
+}
+
+//服务器列表的产品模块展开、隐藏
+$('#stsContent').on('mouseenter','tr',function(){
+	$(this).find('.adsServerTitle').removeClass('hideTitle');
+	if (!($(this).find('.adsServerTitle').is(':animated'))) {
+		var _height = ($(this).find('.adsServerTitle').height() + 8) + 'px';
+		$(this).find('.adsServerTitle').animate({height:_height});
+	}
+	//$(this).find('.adsServerTitle').animate({height:_height});//提高交互效果，如果有很多动画无执行完则不执行动画
+});
+$('#stsContent').on('mouseleave','tr',function(){
+	$(this).find('.adsServerTitle').addClass('hideTitle');
+	$(this).find('.adsServerTitle').animate({height:"100%"});
+});
+
+//所属业务树
+$('#stsContent').on('change','#serverServiceTree',function(){
+	if($(this).val() != '-1'){
+		createSTreeCheck($(this),'所属业务树',true);
+	}else{
+		createSTreeCheck($(this),'请选择所属业务树',false);
+	}
+});
+
+//服务器挂载
+$('#stsContent').on('submit','#adsServerAddForm',function(){
+	var _form = $(this);
+	var flag = true;
+	//校验
+	if($('#serverServiceTree').val() != '-1'){
+		createSTreeCheck($('#serverServiceTree'),'所属业务树',true);
+	}else{
+		createSTreeCheck($('#serverServiceTree'),'请选择所属业务树',false);
+		flag = false;
+	}
+	if(flag){
+		var msg,type;
+		$.ajax({
+			type: 'POST',
+			url: '/boboface/json/v1/server/mount/' + $('#serverServiceTree').val(),
+		    data: {
+		    	ips : $('#adsServerList').find('input:checked').val()//挂载的服务器
+		    },
+		    success: function(data){
+		    	if(data.code != 100000){
+		    		type = 'danger';
+		    		msg = data.data == null ? data.msg : data.data.msg;
+		    		msg = data.data.msg;
+		    	}else{
+		    		type = 'success';
+					msg = data.data.msg;
+					$('#serverServiceTree').trigger('change');
+					$.each(_form.find('div'),function(i,item){
+						$(item).removeClass('has-success');
+					});
+		    	}
+		    	showDialog(msg,type);
+		    }
+		});
+	}
+	return false;
+});
+
+

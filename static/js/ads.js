@@ -290,3 +290,31 @@ $('#saveAdsTemplate').click(function(){
 	      	}
 		});
 });
+
+//保存工具脚本
+$('#saveAdsUnitlScript').click(function(){
+	var msg,type;
+	$.ajax({
+			type: 'POST',
+			url: '/boboface/json/v1/ads/unitlScript/save',
+		    data: {
+		    	'adsUntilscript.id': myCodeMirror.treeNode.id,//unitlScriptId
+				'adsUntilscript.content': myCodeMirror.getValue()//工具脚本内容
+		    },
+		    success: function(data){
+		    	if(data.code != 100000){
+		    		type = 'danger';
+		    	}else{
+	    			type = 'success';
+		    	}
+		    	msg = data.data.msg;
+		    },
+		    error: function() {  
+	        	type = 'danger';
+		    	msg = '请求异常';
+	      	},
+	      	complete: function(){
+	      		showDialog(msg,type);
+	      	}
+		});
+});

@@ -6,7 +6,7 @@ var adsContent = "loading...";
 //头
 var messageTitleTemplate = '<h4 class="modal-title">{title}</h4>';
 //内容
-var messageBodyTemplate = '<p>{body}</p>';
+var messageBodyTemplate = '<p style="word-break:break-all;">{body}</p>';
 //确认按钮
 var messageYesBtnTemplate = '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'+
 							'<button onclick="{method}" type="button" class="btn btn-primary">确定</button>';
@@ -15,7 +15,7 @@ var alertTemplate = '<div class="alert {type} alert-dismissible fade in" role="a
 					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
 					'<strong>{name}</strong> {msg}' +
 					'</div>';
-//公共模态框消息方法
+//公共模态框消息方法（底部显示）
 var alertBoxTime;
 //success、warning、danger、info(default)
 function showDialog(msg,type){
@@ -51,6 +51,15 @@ $(function(){
 	});
 });
 
+//公共模态框消息方法（弹框显示）
+function alertDialog(title, body){
+	$('#messageModal-title').empty();
+	$('#messageModal-title').append(nano(messageTitleTemplate, {title:'注意'}));
+	$('#messageModal-body').empty();
+	$('#messageModal-body').append(nano(messageBodyTemplate, {body:'查看项目详情请求出错，请刷新重试!'}));
+	$('#messageModal').modal('show');
+}
+
 //分页模板
 //tagetName 分页容器
 //pageInfo 分页信息
@@ -61,15 +70,15 @@ function paging(tagetName,pageInfo,methodName,pageUrl){
 	//头部
 	onclickMethod = methodName + '(\'' + pageUrl + pageInfo.prePage  + '\')';
 	var pagingTemplate = '<ul class="pagination pagination-sm">' +
-						  '<li '+ (pageInfo.isFirstPage ? 'class="disabled"' : '') +'>' +
-						    '<a class="page" onclick="'+ (!pageInfo.isFirstPage ? onclickMethod : 'javascript:;') +'" aria-label="Previous">' +
+						  '<li '+ (pageInfo.hasFirstPage ? 'class="disabled"' : '') +'>' +
+						    '<a class="page" onclick="'+ (!pageInfo.hasFirstPage ? onclickMethod : 'javascript:;') +'" aria-label="Previous">' +
 						      '<span aria-hidden="true">&laquo;</span>' +
 						    '</a>' +
 						  '</li>';
 	//中部
 	$.each(pageInfo.navigatepageNums, function(i, item){
 		if(pageInfo.pageNum == item){
-			pagingTemplate += '<li class="active"><a onclick="javascript:;">'+ item +'</a></li>';
+			pagingTemplate += '<li class="active"><a value="' + pageUrl + item + '" onclick="javascript:;">'+ item +'</a></li>';
 		}else{
 			onclickMethod = methodName + '(\'' + pageUrl + item  + '\')';
 			pagingTemplate += '<li><a class="page" onclick="'+onclickMethod+'">'+ item +'</a></li>';
@@ -77,8 +86,8 @@ function paging(tagetName,pageInfo,methodName,pageUrl){
 	});
 	//尾部
 	onclickMethod = methodName + '(\'' + pageUrl + pageInfo.nextPage  + '\')';
-	pagingTemplate += '<li '+ (pageInfo.isLastPage ? 'class="disabled"' : '') +'>' +
-					  '<a class="page" onclick="'+ (!pageInfo.isLastPage ? onclickMethod : 'javascript:;') +'" aria-label="Next">' +
+	pagingTemplate += '<li '+ (pageInfo.hasLastPage ? 'class="disabled"' : '') +'>' +
+					  '<a class="page" onclick="'+ (!pageInfo.hasLastPage ? onclickMethod : 'javascript:;') +'" aria-label="Next">' +
 					  '<span aria-hidden="true">&raquo;</span>' +
 					  '</a>' +
 					  '</li>' +

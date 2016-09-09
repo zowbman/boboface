@@ -4,9 +4,10 @@
     <span>发布中...</span>
   </div>
 </div>
-<div class="container">
+<div class="container" style="padding-bottom: 60px;">
 	<form id="adsBuildForm">
 		<input type="hidden" name="appId" value="{{{appId}}}">
+		<input type="hidden" name="serviceTreeId">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<a data-toggle="collapse" href="#buildParam">发布参数</a>
@@ -33,6 +34,23 @@
 						<td><input type="text" name="branchTag" class="form-control" placeholder="HEAD"></td>
 					</tr>
 					<tr>
+						<td>部署机器</td>
+						<td>
+							<table class="table table-striped">
+							    <thead>
+							    	<tr>
+								      	<th>#</th>
+								        <th>机器IP</th>
+								        <th>地域</th>
+							      	</tr>
+							    </thead>
+							    <tbody id="adsProjectServerList">
+							    </tbody>
+							</table>
+							<nav id="adsProjectServerPaging"></nav>
+						</td>
+					</tr>
+					<tr>
 						<td colspan="2" style="text-align:center;"><button type="submit" class="btn btn-default btn-primary">发布</button></td>
 					</tr>
 				</table>
@@ -40,6 +58,7 @@
 		</div>
 	</form>
 </div>
+
 <!--发布结果Modal 消息模态框-->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="buildResultModal">
   <div class="modal-dialog">
