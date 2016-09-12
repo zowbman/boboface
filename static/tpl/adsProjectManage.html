@@ -3,6 +3,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th><div class="checkbox checkAll"><label><input type="checkbox">全选</label></div></th>
         <th>项目ID</th>
         <th>项目名称</th>
         <th>项目备注</th>
@@ -12,6 +13,25 @@
     </thead>
     <tbody id="adsProjectList"></tbody>
   </table>
+  <nav id="adsProjectPaging"></nav>
 </div>
-<nav id="adsProjectPaging"></nav>
+<div id="adsProjectEdit" class="panel panel-default" style="display: none;">
+  <div class="panel-heading">已选项目列表（用于批量操作）:<button type="button" class="btn btn-link adsProjectEditListClear">清空</button></div>
+  <table class="table">
+     <thead>
+      <tr>
+        <th>项目ID</th>
+        <th>项目名称</th>
+        <th>操作</th>
+      </tr>
+      <tr>
+    </thead>
+    <tbody id="adsProjectEditList"></tbody>
+    <tbody style="border-top:0;">
+      <tr> 
+        <td colspan="3"><button type="button" class="btn btn-danger btn-sm deleteAllAdsProjectBtn">全部删除</button></td>
+      </tr>
+    </tbody>
+  </table>
+<div>
 <script type="text/javascript" src="/js/adsProjectManage.js"></script>

@@ -33,3 +33,21 @@
 #adsBuildForm a{
 	text-decoration: none;
 }
+
+/*ads项目分页*/
+#adsProjectPaging ul{
+	margin: 0;
+}
+
+/*ads项目编辑*/
+.checkAll {
+	margin:0;
+}
+
+.checkAll label{
+	font-weight: bold;
+}
+
+#adsProjectEdit{
+	margin-top: 20px;
+}

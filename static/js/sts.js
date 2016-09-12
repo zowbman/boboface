@@ -306,10 +306,8 @@ $('#stsContent').on('submit','#serviceTreeAddForm',function(){
 		    success: function(data){
 		    	if(data.code != 100000){
 		    		type = 'danger';
-		    		msg = data.msg;
 		    	}else{
 		    		type = 'success';
-					msg = data.data.msg;
 					loadTreeList();
 					_form[0].reset();
 					$.each(_form.find('div'),function(i,item){
@@ -318,6 +316,7 @@ $('#stsContent').on('submit','#serviceTreeAddForm',function(){
 					$('#parentServiceTree').empty();
 		    		$('#parentServiceTree').append(nano(serviceTreeListTemplate, {'title' : '请选择所属业务树','id' : '-1'}));
 		    	}
+		    	msg = data.msg;
 		    	showDialog(msg,type);
 		    }
 		});
@@ -490,10 +489,8 @@ $('#stsContent').on('submit','#adsProjectAddForm',function(){
 		    success: function(data){
 		    	if(data.code != 100000){
 		    		type = 'danger';
-		    		msg = data.msg;
 		    	}else{
 		    		type = 'success';
-					msg = data.data.msg;
 					_form[0].reset();
 					$.each(_form.find('div'),function(i,item){
 						$(item).removeClass('has-success');
@@ -501,6 +498,7 @@ $('#stsContent').on('submit','#adsProjectAddForm',function(){
 					$('#parentServiceTree').empty();
 		    		$('#parentServiceTree').append(nano(serviceTreeListTemplate, {'title' : '请选择所属业务树','id' : '-1'}));
 		    	}
+		    	msg = data.msg;
 		    	showDialog(msg,type);
 		    }
 		});
@@ -528,12 +526,11 @@ $('#saveAdsProjectBtn').click(function(){
 		    success: function(data){
 		    	if(data.code != 100000){
 		    		type = 'danger';
-		    		msg = data.msg;
 		    	}else{
 		    		type = 'success';
-					msg = data.data.msg;
 					loadAdsProjectList($('#adsProjectPaging').find('.active').find('a').attr('value'));
 		    	}
+		    	msg = data.msg;
 		    	$('#adsProjectDetailModal').modal('hide');
 		    	showDialog(msg,type);
 		    }
@@ -591,16 +588,14 @@ $('#stsContent').on('submit','#adsServerAddForm',function(){
 		    success: function(data){
 		    	if(data.code != 100000){
 		    		type = 'danger';
-		    		msg = data.data == null ? data.msg : data.data.msg;
-		    		msg = data.data.msg;
 		    	}else{
 		    		type = 'success';
-					msg = data.data.msg;
 					$('#serverServiceTree').trigger('change');
 					$.each(_form.find('div'),function(i,item){
 						$(item).removeClass('has-success');
 					});
 		    	}
+		    	msg = data.msg;
 		    	showDialog(msg,type);
 		    }
 		});

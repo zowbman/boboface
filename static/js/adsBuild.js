@@ -93,8 +93,10 @@ $('#adsBuildForm').submit(function(){
 	if(!flag)
 		return false;
 
-	if(_form.find('input[type="checkbox"]:checked').length == 0)
+	if(_form.find('input[type="checkbox"]:checked').length == 0){
 		alertDialog('注意','请选择需要发布的机器!');
+		return false;
+	}
 
 	$.ajax({
 			type: 'POST',

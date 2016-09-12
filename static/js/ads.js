@@ -279,7 +279,7 @@ $('#saveAdsTemplate').click(function(){
 		    	}else{
 	    			type = 'success';
 		    	}
-		    	msg = data.data.msg;
+		    	msg = data.msg;
 		    },
 		    error: function() {  
 	        	type = 'danger';
@@ -307,7 +307,7 @@ $('#saveAdsUnitlScript').click(function(){
 		    	}else{
 	    			type = 'success';
 		    	}
-		    	msg = data.data.msg;
+		    	msg = data.msg;
 		    },
 		    error: function() {  
 	        	type = 'danger';

@@ -1,6 +1,7 @@
 //adsProjectManage
 //adsProjectList
 var adsProjectListTemplate = '<tr>' +
+						   '<td><input type="checkbox" value="{id}"></td>' +
 				           '<td><a href="/adsBuild?id={id}" target="_blank">{id}</a></td>' +
 				           '<td>{appname}</td>' +
 				           '<td>{introduction}</td>' +
@@ -32,6 +33,7 @@ function loadAdsProjectList(pageUrl){
 						$('#adsProjectList').append(nano(adsProjectListTemplate, item));
 					});
 					paging('adsProjectPaging',data.data.pageInfo,'loadAdsProjectList',data.data.pageUrl);
+					$('.adsProjectEditListClear').trigger("click");
 		    	}
 		    },
 		    error: function() {  
@@ -107,3 +109,133 @@ function adsProjectDetail(appId){
 	      	}
 		});
 }
+
+//ads项目批量操作
+//checkbox选择
+$('.checkAll').find('input[type="checkbox"]').click(function(){
+	if($(this).prop('checked')){//全选/全不选
+		$('#adsProjectList').find('input[type="checkbox"]').prop('checked',true);
+	}else{
+		$('#adsProjectList').find('input[type="checkbox"]').prop('checked',false);
+	}
+	adsProjectEditAdd();
+});
+$('#adsProjectList').on('click','input[type="checkbox"]',function(){
+	if($(this).prop('checked')){
+		var flag = true;
+		$.each($('#adsProjectList').find('input[type="checkbox"]'),function(i,item){
+			if(!$(item).prop('checked')){
+				flag = false;
+				return;
+			}
+		});
+		if(flag){
+			$('.checkAll').find('input[type="checkbox"]').prop('checked',true);
+		}
+	}else{
+		$('.checkAll').find('input[type="checkbox"]').prop('checked',false);
+	}
+	adsProjectEditAdd();
+});
+//编辑添加列表
+var adsProjectEditTemplate = '<tr>' +
+				           '<td>{id}</td>' +
+				           '<td>{appname}</td>' +
+				           '<td><a class="btn btn-default btn-xs deleteAdsProjectBtn" value="{id}" href="javascript:;" role="button">删除</a></td>' +
+				           '</tr>';
+function adsProjectEditAdd(){
+	$('#adsProjectEditList').empty();
+	$.each($('#adsProjectList').find('input[type="checkbox"]'),function(i,item){
+		if($(item).prop('checked')){
+			var _tds = $(item).parent().parent().find('td');
+			var data = {
+				id : $(item).val(),
+				appname : $(_tds[2]).text()
+			};
+			$('#adsProjectEditList').append(nano(adsProjectEditTemplate,data));
+		}
+	});
+	if($('#adsProjectEditList').find('tr').length == 0){
+		$('#adsProjectEdit').attr('style','display:none');
+	}else{
+		$('#adsProjectEdit').attr('style','display:block');
+	}
+}
+//ads项目编辑列表清空
+$('.adsProjectEditListClear').click(function(){
+	$('.checkAll').find('input[type="checkbox"]').prop('checked',true);
+	$('.checkAll').find('input[type="checkbox"]').trigger("click");
+});
+//ads项目删除
+$('#adsProjectEditList').on('click','.deleteAdsProjectBtn',function(){
+	var ids = [];
+	ids.push($(this).attr('value'));
+	$('#messageModal-title').empty();
+	$('#messageModal-title').append(nano(messageTitleTemplate, {title:'注意'}));
+	$('#messageModal-body').empty();
+	$('#messageModal-body').append(nano(messageBodyTemplate, {body:'是否删除指定ads项目?'}));
+	$('#messageModal-btn').empty();
+	$('#messageModal-btn').append(nano(messageYesBtnTemplate, {method:'adsProjectDelete(\'' + ids + '\')'}));
+	$('#messageModal').modal('show');
+});
+$('.deleteAllAdsProjectBtn').click(function(){
+	var ids = [];
+	$.each($('#adsProjectEditList').find('tr'),function(i,item){
+		var _tds = $(item).find('td');
+		ids.push($(_tds[0]).text());
+	});
+
+	$('#messageModal-title').empty();
+	$('#messageModal-title').append(nano(messageTitleTemplate, {title:'注意'}));
+	$('#messageModal-body').empty();
+	$('#messageModal-body').append(nano(messageBodyTemplate, {body:'是否删除指定ads项目?'}));
+	$('#messageModal-btn').empty();
+	$('#messageModal-btn').append(nano(messageYesBtnTemplate, {method:'adsProjectDelete(\'' + ids + '\')'}));
+	$('#messageModal').modal('show');
+});
+function adsProjectDelete(ids){
+	var msg,type;
+	var _ids = ids.split(',');
+	$.ajax({
+			type: 'POST',
+			url: '/boboface/json/v1/ads/projectDelete',
+		    data: {
+		    	ids : _ids
+		    },
+		    success: function(data){
+		    	if(data.code == 100000){
+		    		$.each(_ids,function(i,id){
+						$.each($('#adsProjectList').find('input[type="checkbox"]:checked'),function(i,item){//删除ads项目列表
+							if($(item).val() == id){
+								$(item).parent().parent().remove();
+							}
+						});
+						$.each($('#adsProjectEditList').find('tr'),function(i,item){//删除ads项目编辑列表
+							var _tds = $(item).find('td');
+							if($(_tds[0]).text() == id){
+								$(this).remove();
+							}
+						});
+						if($('#adsProjectEditList').find('tr').length == 0){//隐藏编辑div，去除全选
+							$('#adsProjectEdit').attr('style','display:none');
+							$('.checkAll').find('input[type="checkbox"]').prop('checked',false);
+						}
+		    		});
+		    		type = 'success';
+		    		loadAdsProjectList();
+		    	}else{
+		    		type = 'danger';
+		    	}
+		    	msg = data.msg;
+		    },
+		    error: function() {  
+		    	type = 'danger';
+		    	msg = '请求异常';
+	      	},
+	      	complete: function(){
+	      		$('#messageModal').modal('hide');
+	      		showDialog(msg,type);
+	      	}
+		});
+}
+

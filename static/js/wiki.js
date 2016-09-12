@@ -120,7 +120,7 @@ $(function(){
 function loadTreeList(){
 	$.get("/boboface/json/v1/wiki/treeList", null, function(data) {
 		if(data.code != 100000){
-			console.log('加载wiki tree失败')
+			console.log(data.msg)
 			return;
 		}
 		zTreeObj = $.fn.zTree.init($("#wikiTree"), setting, data.data.list);
@@ -133,7 +133,7 @@ function loadTreeList(){
 function zTreeOnClick(event, treeId, treeNode) {
 	$.get("/boboface/json/v1/wiki/content/" + treeNode.id, null, function(data) {
 		if(data.code != 100000){
-			console.log('加载wiki content失败')
+			console.log(data.msg)
 			return;
 		}
 		if(data.data.wikiConten == null){
@@ -342,7 +342,7 @@ $('#saveWikiContent').click(function(){
 		    	}else{
 	    			type = 'success';
 		    	}
-		    	msg = data.data.msg;
+		    	msg = data.msg;
 		    },
 		    error: function() {  
 	        	type = 'danger';

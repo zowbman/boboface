@@ -54,9 +54,9 @@ $(function(){
 //公共模态框消息方法（弹框显示）
 function alertDialog(title, body){
 	$('#messageModal-title').empty();
-	$('#messageModal-title').append(nano(messageTitleTemplate, {title:'注意'}));
+	$('#messageModal-title').append(nano(messageTitleTemplate, {title:title}));
 	$('#messageModal-body').empty();
-	$('#messageModal-body').append(nano(messageBodyTemplate, {body:'查看项目详情请求出错，请刷新重试!'}));
+	$('#messageModal-body').append(nano(messageBodyTemplate, {body:body}));
 	$('#messageModal').modal('show');
 }
 
@@ -125,36 +125,36 @@ $(function(){
 		if(highLevel == 1){
 			$('#mytab').find('.highLevel').attr('style','display:block!important;');
 		}
-	$('#highLevelPrivilegeModal').find('form').submit(function(){
-		var msg,type;
-		$.ajax({
-			type: 'GET',
-			url: '/boboface/json/v1/highLevel',
-		    data: {
-		    	cmd: $('#highLevelCmdInput').val()
-		    },
-		    success: function(data){
-		    	if(data.code != 100000){
-		    		type = 'danger';
-		    		msg = data.msg;
-		    	}else{
-		    		type = 'success';
-	    			$('#highLevelPrivilegeModal').modal('hide');
-	    			setTimeout(function(){
-						window.location.reload();
-					},3000);
-					msg = data.data.msg;
-		    	}
-		    },
-		    error: function() {  
-	        	type = 'danger';
-		    	msg = '请求异常';
-	      	},
-	      	complete: function(){
-	      		$('#highLevelPrivilegeModal').modal('hide');
-	      		showDialog(msg,type);
-	      	}
-		});
+		$('#highLevelPrivilegeModal').find('form').submit(function(){
+			var msg,type;
+			$.ajax({
+				type: 'GET',
+				url: '/boboface/json/v1/highLevel',
+			    data: {
+			    	cmd: $('#highLevelCmdInput').val()
+			    },
+			    success: function(data){
+			    	if(data.code != 100000){
+			    		type = 'danger';
+			    		msg = data.msg;
+			    	}else{
+			    		type = 'success';
+		    			$('#highLevelPrivilegeModal').modal('hide');
+		    			setTimeout(function(){
+							window.location.reload();
+						},3000);
+						msg = data.data.msg;
+			    	}
+			    },
+			    error: function() {  
+		        	type = 'danger';
+			    	msg = '请求异常';
+		      	},
+		      	complete: function(){
+		      		$('#highLevelPrivilegeModal').modal('hide');
+		      		showDialog(msg,type);
+		      	}
+			});
 		return false;
 	});
 });
