@@ -124,6 +124,7 @@ $(function(){
 		});
 		if(highLevel == 1){
 			$('#mytab').find('.highLevel').attr('style','display:block!important;');
+			$('#hightLevel-mytab').find('.highLevel').attr('style','display:block!important;');
 		}
 		$('#highLevelPrivilegeModal').find('form').submit(function(){
 			var msg,type;

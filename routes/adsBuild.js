@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('adsBuild', {
     ads: 'active',
-    appId: req.query.id
+    appId: req.query.id,
   });
 });
 

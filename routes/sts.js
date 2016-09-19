@@ -4,7 +4,8 @@ var router = express.Router();
 /* GET contact page. */
 router.get('/', function(req, res, next) {
   res.render('sts', {
-    sts: 'active'
+    sts: 'active',
+    shape: '-fluid'
   });
 });
 

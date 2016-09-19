@@ -25,7 +25,7 @@
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container"><!--container-fluid-->
+      <div class="container{{{shape}}}"><!--container-fluid-->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -38,7 +38,7 @@
         <div id="navbar" class="collapse navbar-collapse" role="navigation">
           <ul id="mytab" class="nav navbar-nav">
             <li class="{{{index}}}"><a href="/">Home</a></li>
-            <li class="{{{about}}}"><a href="/about">About</a></li>
+            <!-- <li class="{{{about}}}"><a href="/about">About</a></li> -->
             <li class="{{{contact}}}"><a href="/contact">Contact</a></li>
             <li class="{{{wiki}}}"><a href="/wiki">wiki</a></li>
             <li class="dropdown highLevel {{{wikiManage}}}">
@@ -61,6 +61,9 @@
             </li>
             <li class="highLevel {{{sts}}}"><a href="/sts">STS 业务树管理</a></li>
           </ul>
+          <!--右导航-->
+          <!-- <ul id="hightLevel-mytab" class="nav navbar-nav navbar-right">
+          </ul> -->
         </div><!--/.nav-collapse -->
       </div>
     </nav>
