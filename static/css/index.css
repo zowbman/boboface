@@ -1,4 +1,20 @@
-.index.headPortrait{
-	width: 180px;
-	height: 180px;
+.index-div{
+	text-align:left;
 }
+
+.index-div-left{
+	margin-top:150px;
+}
+
+.index-div-left h3{
+	color:#666;
+}
+
+.index-div-left .description{
+	color:#aaa;
+}
+
+.index-div-right h1{
+	margin-bottom:30px;
+}
+
