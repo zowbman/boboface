@@ -89,7 +89,13 @@ var setting = {
   	edit: {
 		enable: true,
 		showRemoveBtn: showRemoveBtn,
-		showRenameBtn: showRenameBtn
+		showRenameBtn: showRenameBtn,
+		drag:{
+			isMove : true,
+			inner : true,
+			prev: true,
+			next: true
+		}
 	},
   	data : {
   			key :{
@@ -105,6 +111,7 @@ var setting = {
 		onClick: zTreeOnClick,
 		beforeClick: zTreeBeforeClick,
 		beforeDrag: beforeDrag,
+		beforeDrop: beforeDrop,
 		beforeEditName: beforeEditName,
 		beforeRemove: beforeRemove,
 		beforeRename: beforeRename,
@@ -118,7 +125,7 @@ $(function(){
 });
 //loadTreeList
 function loadTreeList(){
-	$.get("/boboface/json/v1/wiki/treeList", null, function(data) {
+	$.get("/boboface/json/v2/wiki/treeList", null, function(data) {
 		if(data.code != 100000){
 			console.log(data.msg)
 			return;
@@ -153,8 +160,35 @@ function zTreeBeforeClick(treeId, treeNode, clickFlag) {
 var log, className = "dark";
 //是否允许拖拽
 function beforeDrag(treeId, treeNodes) {
+	if(highLevel == 0) return false;
+}
+//拖拽
+function beforeDrop(treeId, treeNodes, targetNode, moveType){
+	if(targetNode.parentid == null){
+		return false;
+	}
+	$.ajax({
+			type: 'POST',
+			url: '/boboface/json/v1/wiki/treeNodeSortChange/' + moveType,
+		    data: {
+		    	nodeId: treeNodes[0].id,
+				targetNodeId:targetNode.id
+		    },
+		    success: function(data){
+		    	if(data.code != 100000){
+		    		alert(data.msg);
+		    	}else{
+		    		loadTreeList()
+		    	}
+		    },
+		    error: function() {  
+		    	alert('请求异常');
+	      	}
+		});
 	return false;
 }
+
+
 //编辑显示
 var newCount = 1;
 function addHoverDom(treeId, treeNode) {
