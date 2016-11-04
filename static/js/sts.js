@@ -100,7 +100,8 @@ function beforeEditName(treeId, treeNode) {
 	className = (className === "dark" ? "":"dark");
 	var zTree = $.fn.zTree.getZTreeObj("stsTree");
 	zTree.selectNode(treeNode);
-	return confirm("进入节点 -- " + treeNode.title + " 的编辑状态吗？");
+	//return confirm("进入节点 -- " + treeNode.title + " 的编辑状态吗？");
+	return true;
 }
 //删除节点(在此操作)
 function beforeRemove(treeId, treeNode) {
