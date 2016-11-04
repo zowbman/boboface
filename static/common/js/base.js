@@ -93,7 +93,7 @@ function paging(tagetName,pageInfo,methodName,pageUrl){
 					  '</li>' +
 					  '</ul>';
 	$('#' + tagetName).empty();
-	$('#' + tagetName).append(nano(pagingTemplate, {pageInfo}));
+	$('#' + tagetName).append(nano(pagingTemplate, {pageInfo:pageInfo}));
 }
 //高权模块
 var highLevel;

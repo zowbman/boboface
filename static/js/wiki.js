@@ -261,7 +261,8 @@ function beforeEditName(treeId, treeNode) {
 	showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.title);
 	var zTree = $.fn.zTree.getZTreeObj("wikiTree");
 	zTree.selectNode(treeNode);
-	return confirm("进入节点 -- " + treeNode.title + " 的编辑状态吗？");
+	/*return confirm("进入节点 -- " + treeNode.title + " 的编辑状态吗？");*/
+	return true;
 }
 //删除节点(在此操作)
 function beforeRemove(treeId, treeNode) {
@@ -298,8 +299,8 @@ function onRemove(e, treeId, treeNode) {
 }
 //重命名(在此操作)
 function beforeRename(treeId, treeNode, newName, isCancel) {
-	className = (className === "dark" ? "":"dark");
 	var zTree = $.fn.zTree.getZTreeObj("wikiTree");
+	className = (className === "dark" ? "":"dark");
 	showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.title + (isCancel ? "</span>":""));
 	if (newName.length == 0) {//重命名非空校验
 		alert("节点名称不能为空.");
@@ -348,7 +349,7 @@ function showLog(str) {
 	if(log.children("li").length > 8) {
 		log.get(0).removeChild(log.children("li")[0]);
 	}*/
-	console.log(str);
+	//console.log(str);
 }
 //获取时间
 function getTime() {
